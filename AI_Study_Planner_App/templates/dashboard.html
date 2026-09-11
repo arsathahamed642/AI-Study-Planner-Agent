@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div><p class="eyebrow">PERSONALIZED AI PLANNER</p><h1>Good Morning, Student! 👋</h1><p>Plan smarter, track progress, and automatically recover from missed study sessions.</p></div>
+  <a class="btn" href="/plan">View Full Plan →</a>
+</section>
+<div class="grid stats">
+  <div class="card"><span>Today's Progress</span><strong>{{ progress }}%</strong><div class="bar"><i style="width:{{ progress }}%"></i></div></div>
+  <div class="card"><span>Subjects</span><strong>{{ subjects|length }}</strong><small>Active subjects</small></div>
+  <div class="card"><span>Pending Tasks</span><strong>{{ tasks|selectattr('done','equalto',false)|list|length }}</strong><small>Need attention</small></div>
+</div>
+<section class="card">
+<h2>Today's Tasks</h2>
+{% for t in tasks %}
+<div class="task {% if t.done %}done{% endif %}">
+  <div><b>{{ t.subject }}</b><p>{{ t.topic }} • {{ t.duration }} min</p></div>
+  <form method="post" action="/task/{{t.id}}/toggle"><button class="check" type="submit">{% if t.done %}✓ Completed{% else %}Mark Done{% endif %}</button></form>
+</div>
+{% endfor %}
+</section>
+<section class="card replan">
+<h2>🤖 Adaptive Re-planning Agent</h2>
+<p>If you miss tasks, the agent recalculates priorities and creates an updated schedule.</p>
+<form method="post" action="/replan"><button class="btn" type="submit">Re-plan Missed Tasks</button></form>
+</section>
+{% endblock %}

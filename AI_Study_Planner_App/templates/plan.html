@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero"><div><p class="eyebrow">AI GENERATED</p><h1>{% if replanned %}Updated Study Schedule{% else %}Create Study Plan{% endif %}</h1><p>{% if replanned %}The plan has been adapted around pending tasks.{% else %}Generate an optimized schedule using available study time and subject priorities.{% endif %}</p></div></section>
+{% if not replanned %}
+<section class="card">
+<form class="generate" method="post" action="/generate"><label>Available daily study hours <input type="number" name="hours" value="5" min="1" max="12" step="0.5"></label><button class="btn" type="submit">Generate AI Study Plan</button></form>
+</section>
+{% endif %}
+<section class="card">
+<h2>Study Timetable</h2>
+<div class="table">
+<div class="tr th"><span>Day</span><span>Subject</span><span>Topic</span><span>Duration</span></div>
+{% for p in plan %}<div class="tr"><span>{{p.day}}</span><b>{{p.subject}}</b><span>{{p.topic}}</span><span>{{p.duration}} min</span></div>{% endfor %}
+</div>
+</section>
+<section class="card">
+<h2>How the agent works</h2>
+<div class="agents"><div>🔎 <b>Analysis Agent</b><small>Analyzes difficulty and deadlines</small></div><div>🗓️ <b>Planning Agent</b><small>Generates the timetable</small></div><div>📊 <b>Progress Agent</b><small>Tracks completed tasks</small></div><div>🔄 <b>Re-planning Agent</b><small>Adapts missed work</small></div></div>
+</section>
+{% endblock %}
